@@ -1,0 +1,94 @@
+<br />
+<div class="container bg-light p-3 border">
+  <div class="w-100 white-back shadow rounded text-center p-2">
+    <h1 class="pb-3 pt-3 text-primary">{{ "Manage Products" | uppercase }}</h1>
+    <hr />
+    <br />
+
+    <div class="row">
+      <div class="col-md-6 p-5 pt-0 pb-0">
+        <div class="mb-4">
+          <h2>Add Products</h2>
+        </div>
+        <div class="form text-start">
+          <div class="pro-id mb-3">
+            <label for="proId" class="h6">Products Id:</label>
+            <br />
+            <input
+              type="text"
+              class="form-control"
+              id="proId"
+              placeholder="Enter products id"
+              #id
+            />
+          </div>
+          <div class="mb-3 pro-name">
+            <label for="proName" class="h6">Products Name:</label>
+            <br />
+            <input
+              type="text"
+              class="form-control"
+              id="proName"
+              placeholder="Enter products name"
+              #name
+            />
+          </div>
+          <div class="pro-price mb-3">
+            <label for="proPrice" class="h6">Products Price:</label>
+            <br />
+            <input
+              type="number"
+              placeholder="Enter products price"
+              class="form-control"
+              id="proPrice"
+              #price
+            />
+          </div>
+          <button class="btn btn-success" (click)="addProduct(id, name, price)">
+            Add Product
+          </button>
+          &nbsp;&nbsp;
+          <button class="btn btn-primary">Save Products</button>
+          &nbsp;&nbsp;
+          <button class="btn btn-warning">Fetch products</button>
+        </div>
+        <br />
+      </div>
+      <div class="col-md-6 p-5 pt-0 pb-0">
+        <div class="mb-5">
+          <h2>UX Products</h2>
+        </div>
+        <div>
+          <table class="table">
+            <thead class="table-dark">
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Id</th>
+                <th scope="col">Name</th>
+                <th scope="col" class="text-end">Price</th>
+                <th class="text-end" scope="col">Delete</th>
+              </tr>
+            </thead>
+            <tbody>
+              <ng-container *ngFor="let product of products; index as i">
+                <tr class="h6">
+                  <td class="pt-3 bg-success" scope="col">{{ i + 1 }}</td>
+                  <td class="pt-3" scope="col">{{ product.id | lowercase}}</td>
+                  <td class="pt-3" scope="col">{{ product.name | titlecase}}</td>
+                  <td class="pt-3 text-end" scope="col">
+                    {{ product.price }}tk
+                  </td>
+                  <td class="text-end" scope="col">
+                    <button (click)="deleteButton(i)" class="btn btn-danger">
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+              </ng-container>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
