@@ -48,18 +48,22 @@
             Add Product
           </button>
           &nbsp;&nbsp;
-          <button (click)="saveProducts()" class="btn btn-primary">Save Products</button>
+          <button (click)="saveProducts()" class="btn btn-primary">
+            Save Products
+          </button>
           &nbsp;&nbsp;
-          <button class="btn btn-warning">Fetch products</button>
+          <button (click)="onfetchData()" class="btn btn-warning">
+            Fetch products
+          </button>
         </div>
         <br />
       </div>
       <div class="col-md-6 p-5 pt-0 pb-0">
         <div class="mb-5">
-          <h2>UX Products</h2>
+          <h2>{{ titleData | async}}</h2>
         </div>
         <div>
-          <table class="table">
+          <table class="table" *ngIf="products">
             <thead class="table-dark">
               <tr>
                 <th scope="col">#</th>
@@ -69,12 +73,14 @@
                 <th class="text-end" scope="col">Delete</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody *ngIf="!onShowSpinner">
               <ng-container *ngFor="let product of products; index as i">
                 <tr class="h6">
                   <td class="pt-3 bg-success" scope="col">{{ i + 1 }}</td>
-                  <td class="pt-3" scope="col">{{ product.id | lowercase}}</td>
-                  <td class="pt-3" scope="col">{{ product.name | titlecase}}</td>
+                  <td class="pt-3" scope="col">{{ product.id | lowercase }}</td>
+                  <td class="pt-3" scope="col">
+                    {{ product.name | titlecase }}
+                  </td>
                   <td class="pt-3 text-end" scope="col">
                     {{ product.price }}tk
                   </td>
@@ -87,6 +93,17 @@
               </ng-container>
             </tbody>
           </table>
+
+          <ng-container *ngIf="onShowSpinner">
+            <div
+              class="text-center d-flex align-items-center justify-content-center"
+            >
+              <div class="spinner-border text-warning" role="status">
+                <span class="visually-hidden">Loading...</span>
+              </div>
+              &nbsp; Fetching products...
+            </div>
+          </ng-container>
         </div>
       </div>
     </div>

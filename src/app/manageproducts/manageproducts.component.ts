@@ -10,13 +10,18 @@ import { ManageProductsService } from '../app-service/manage-products.service';
 export class ManageproductsComponent implements OnInit {
 
   constructor(
-    private httpSer: ManageProductsService,
+    private _httpSer: ManageProductsService,
     private http: HttpClient
   ) { }
 
-  ngOnInit(): void {
-  }
+  onShowSpinner:boolean = false;
 
+  titleData:any;
+
+  ngOnInit(): void {
+    this.onfetchData();
+    this.titleData = this._httpSer.getTitle();
+  }
 
   deleteButton(index: any) {
     this.products.splice(index, 1);
@@ -30,37 +35,39 @@ export class ManageproductsComponent implements OnInit {
     });
   }
 
+  products:any;
 
-  products: any[] = [
-    {
-      id: 'p1',
-      name: 'Laptop',
-      price: 2000
-    },
-    {
-      id: 'p2',
-      name: 'Washing Machine',
-      price: 4500
-    },
-    {
-      id: 'p3',
-      name: 'TV',
-      price: 3000
-    },
-    {
-      id: 'p4',
-      name: 'Mobile',
-      price: 6000
-    },
-    {
-      id: 'p5',
-      name: 'Lock',
-      price: 500
-    },
-  ];
+  // products: any[] = [
+  //   {
+  //     id: 'p1',
+  //     name: 'Laptop',
+  //     price: 2000
+  //   },
+  //   {
+  //     id: 'p2',
+  //     name: 'Washing Machine',
+  //     price: 4500
+  //   },
+  //   {
+  //     id: 'p3',
+  //     name: 'TV',
+  //     price: 3000
+  //   },
+  //   {
+  //     id: 'p4',
+  //     name: 'Mobile',
+  //     price: 6000
+  //   },
+  //   {
+  //     id: 'p5',
+  //     name: 'Lock',
+  //     price: 500
+  //   },
+  // ];
 
+  // save in database:-
   saveProducts() {
-    this.httpSer.saveProducts(this.products).subscribe(
+    this._httpSer.saveProducts(this.products).subscribe(
       (res: any) => {
         console.log(res);
       },
@@ -69,5 +76,20 @@ export class ManageproductsComponent implements OnInit {
       }
     );
   }
+
+  // fetch data in firebase:-
+  onfetchData(){
+    this.onShowSpinner = true;
+    this._httpSer.fetchProducts().subscribe(
+      (res:any) => {
+        const data = JSON.stringify(res);
+        this.products = JSON.parse(data);
+        this.onShowSpinner = false;
+      },
+      (err:any) => {
+        console.log(err);
+      }
+    );
+  };
 
 }
