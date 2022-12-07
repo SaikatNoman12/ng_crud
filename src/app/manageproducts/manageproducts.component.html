@@ -6,7 +6,7 @@
     <br />
 
     <div class="row">
-      <div class="col-md-6 p-5 pt-0 pb-0">
+      <div class="col-md-6">
         <div class="mb-4">
           <h2>Add Products</h2>
         </div>
@@ -45,7 +45,7 @@
             />
           </div>
           <button class="btn btn-success" (click)="addProduct(id, name, price)">
-            Add Product
+            {{editData ? "Update Product" :"Add Product"}}
           </button>
           &nbsp;&nbsp;
           <button (click)="saveProducts()" class="btn btn-primary">
@@ -58,7 +58,7 @@
         </div>
         <br />
       </div>
-      <div class="col-md-6 p-5 pt-0 pb-0">
+      <div class="col-md-6">
         <div class="mb-5">
           <h2>{{ titleData | async}}</h2>
         </div>
@@ -70,6 +70,7 @@
                 <th scope="col">Id</th>
                 <th scope="col">Name</th>
                 <th scope="col" class="text-end">Price</th>
+                <th class="text-end" scope="col">Edit</th>
                 <th class="text-end" scope="col">Delete</th>
               </tr>
             </thead>
@@ -83,6 +84,11 @@
                   </td>
                   <td class="pt-3 text-end" scope="col">
                     {{ product.price }}tk
+                  </td>
+                  <td class="text-end" scope="col">
+                    <button (click)="editButton(i)" class="btn btn-success">
+                      Edit
+                    </button>
                   </td>
                   <td class="text-end" scope="col">
                     <button (click)="deleteButton(i)" class="btn btn-danger">

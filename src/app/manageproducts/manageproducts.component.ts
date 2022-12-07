@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ManageProductsService } from '../app-service/manage-products.service';
 
 @Component({
@@ -9,14 +9,20 @@ import { ManageProductsService } from '../app-service/manage-products.service';
 })
 export class ManageproductsComponent implements OnInit {
 
+
+  @ViewChild('id') id!: ElementRef;
+  @ViewChild('name') name!: ElementRef;
+  @ViewChild('price') price!: ElementRef;
+  onShowSpinner: boolean = false;
+  titleData: any;
+  products: any[] = [];
+  editData: boolean = false;
+  editIndex: any;
+
   constructor(
     private _httpSer: ManageProductsService,
     private http: HttpClient
   ) { }
-
-  onShowSpinner:boolean = false;
-
-  titleData:any;
 
   ngOnInit(): void {
     this.onfetchData();
@@ -25,17 +31,36 @@ export class ManageproductsComponent implements OnInit {
 
   deleteButton(index: any) {
     this.products.splice(index, 1);
+    this.saveProducts();
   }
 
   addProduct(proId: any, proName: any, proPrice: any) {
-    this.products.push({
-      id: proId.value,
-      name: proName.value,
-      price: proPrice.value
-    });
-  }
 
-  products:any;
+    if (this.editData) {
+      this.products[this.editIndex] = {
+        id: proId.value,
+        name: proName.value,
+        price: proPrice.value
+      }
+      proId.value = '';
+      proName.value = '';
+      proPrice.value = '';
+      this.editData = false;
+    }
+    else {
+      this.products.push({
+        id: proId.value,
+        name: proName.value,
+        price: proPrice.value
+      });
+
+      proId.value = '';
+      proName.value = '';
+      proPrice.value = '';
+    }
+
+    this.saveProducts();
+  }
 
   // products: any[] = [
   //   {
@@ -69,24 +94,36 @@ export class ManageproductsComponent implements OnInit {
   saveProducts() {
     this._httpSer.saveProducts(this.products).subscribe(
       (res: any) => {
-        console.log(res);
+        // console.log(res);
       },
       (err: any) => {
-        console.log(err);
+        // console.log(err);
       }
     );
   }
 
+
+  editButton(index: number) {
+    this.editData = true;
+
+    this.editIndex = index;
+
+    this.id.nativeElement.value = this.products[index].id;
+    this.name.nativeElement.value = this.products[index].name;
+    this.price.nativeElement.value = this.products[index].price;
+  }
+
+
   // fetch data in firebase:-
-  onfetchData(){
+  onfetchData() {
     this.onShowSpinner = true;
     this._httpSer.fetchProducts().subscribe(
-      (res:any) => {
+      (res: any) => {
         const data = JSON.stringify(res);
         this.products = JSON.parse(data);
         this.onShowSpinner = false;
       },
-      (err:any) => {
+      (err: any) => {
         console.log(err);
       }
     );
