@@ -1,4 +1,6 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { ManageProductsService } from '../app-service/manage-products.service';
 
 @Component({
   selector: 'app-manageproducts',
@@ -7,7 +9,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ManageproductsComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private httpSer: ManageProductsService,
+    private http: HttpClient
+  ) { }
 
   ngOnInit(): void {
   }
@@ -17,11 +22,11 @@ export class ManageproductsComponent implements OnInit {
     this.products.splice(index, 1);
   }
 
-  addProduct(proId:any, proName:any, proPrice:any){
+  addProduct(proId: any, proName: any, proPrice: any) {
     this.products.push({
-      id:proId.value,
-      name:proName.value,
-      price:proPrice.value
+      id: proId.value,
+      name: proName.value,
+      price: proPrice.value
     });
   }
 
@@ -53,5 +58,16 @@ export class ManageproductsComponent implements OnInit {
       price: 500
     },
   ];
+
+  saveProducts() {
+    this.httpSer.saveProducts(this.products).subscribe(
+      (res: any) => {
+        console.log(res);
+      },
+      (err: any) => {
+        console.log(err);
+      }
+    );
+  }
 
 }
