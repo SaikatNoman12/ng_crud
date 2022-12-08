@@ -16,7 +16,8 @@ export class ManageUsersComponent implements OnInit {
   userTitle: any;
   spinnerTitle: boolean = false;
 
-  users: any[] = [];
+  users: any;
+  spinnerUser: boolean = false;
 
   constructor(
     private _userSer: UserService
@@ -64,13 +65,13 @@ export class ManageUsersComponent implements OnInit {
       alert('Enter technology input field!');
     }
     else {
-      this.users.push(userData);
       this._userSer.onPostData(userData).subscribe(
         (res) => {
-          // console.log(res);
+          if (res !== null) {
+            this.onFetchData();
+          }
         },
         (err) => {
-          // console.log(err);
         }
       )
       this.templateForm.reset();
@@ -79,14 +80,24 @@ export class ManageUsersComponent implements OnInit {
 
 
   onFetchData() {
+    this.spinnerUser = true;
     this._userSer.onGetDb().subscribe(
       (res) => {
         const data = JSON.stringify(res);
         this.users = JSON.parse(data);
+        this.spinnerUser = false;
       },
       (err) => {
       }
     )
+  }
+
+
+  // post deleteDb:-
+  onDeleteData(userId: string) {
+    this._userSer.onDeleteDb(userId).subscribe(() => {
+      this.onFetchData();
+    });
   }
 
 

@@ -65,34 +65,50 @@
           </div>
         </div>
         <div>
-          <table class="table">
-            <thead class="table-dark">
-              <tr>
-                <th scope="col">#</th>
-                <th scope="col">Name</th>
-                <th scope="col">Technology</th>
-                <th class="text-center" scope="col">Edit</th>
-                <th class="text-center" scope="col">Delete</th>
-              </tr>
-            </thead>
-            <tbody>
-              <ng-container *ngFor="let user of users; index as i">
-                <tr class="h6">
-                  <td class="pt-3 bg-success text-light" scope="col">
-                    {{ i + 1 }}
-                  </td>
-                  <td class="pt-3" scope="col">{{ user.name }}</td>
-                  <td class="pt-3" scope="col">{{ user.technology }}</td>
-                  <td class="text-center" scope="col">
-                    <button class="btn btn-success">Edit</button>
-                  </td>
-                  <td class="text-center" scope="col">
-                    <button class="btn btn-danger">Delete</button>
-                  </td>
+          <ng-container *ngIf="users">
+            <table class="table">
+              <thead class="table-dark">
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Name</th>
+                  <th scope="col">Technology</th>
+                  <th class="text-center" scope="col">Edit</th>
+                  <th class="text-center" scope="col">Delete</th>
                 </tr>
-              </ng-container>
-            </tbody>
-          </table>
+              </thead>
+              <tbody *ngIf="!spinnerUser">
+                <ng-container *ngFor="let user of users; index as i">
+                  <tr class="h6">
+                    <td class="pt-3 bg-success text-light" scope="col">
+                      {{ i + 1 }}
+                    </td>
+                    <td class="pt-3" scope="col">{{ user.name }}</td>
+                    <td class="pt-3" scope="col">{{ user.technology }}</td>
+                    <td class="text-center" scope="col">
+                      <button class="btn btn-success">Edit</button>
+                    </td>
+                    <td class="text-center" scope="col">
+                      <button
+                        class="btn btn-danger"
+                        (click)="onDeleteData(user.userId)"
+                      >
+                        Delete
+                      </button>
+                    </td>
+                  </tr>
+                </ng-container>
+              </tbody>
+            </table>
+          </ng-container>
+
+          <ng-container *ngIf="spinnerUser">
+            <div class="d-flex align-items-center justify-content-center">
+              <div class="spinner-border text-warning" role="status">
+                <span class="visually-hidden">Loading...</span>
+              </div>
+              &nbsp; Fetching data...
+            </div>
+          </ng-container>
         </div>
       </div>
     </div>
