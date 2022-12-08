@@ -27,6 +27,8 @@ export class ManageUsersComponent implements OnInit {
 
   ngOnInit(): void {
     this.onGetUserTitle();
+    // fetch server data:
+    this.onFetchData();
   }
 
 
@@ -63,8 +65,28 @@ export class ManageUsersComponent implements OnInit {
     }
     else {
       this.users.push(userData);
+      this._userSer.onPostData(userData).subscribe(
+        (res) => {
+          // console.log(res);
+        },
+        (err) => {
+          // console.log(err);
+        }
+      )
       this.templateForm.reset();
     }
+  }
+
+
+  onFetchData() {
+    this._userSer.onGetDb().subscribe(
+      (res) => {
+        const data = JSON.stringify(res);
+        this.users = JSON.parse(data);
+      },
+      (err) => {
+      }
+    )
   }
 
 
