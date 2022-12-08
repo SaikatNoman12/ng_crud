@@ -44,17 +44,23 @@
               #price
             />
           </div>
-          <button class="btn btn-success">Add Products</button>
+          <button (click)="addData(id, name, price)" class="btn btn-success">
+            {{ editProductData ? "Update Products" : "Add Products" }}
+          </button>
           &nbsp;&nbsp;
-          <button class="btn btn-primary">Save Products</button>
+          <button class="btn btn-primary" (click)="savePutData()">
+            Save Products
+          </button>
           &nbsp;&nbsp;
-          <button class="btn btn-warning">Fetch products</button>
+          <button class="btn btn-warning" (click)="fetchData()">
+            Fetch products
+          </button>
         </div>
         <br />
       </div>
       <div class="col-md-6">
         <div class="mb-5">
-          <h2>Ux Products</h2>
+          <h2>{{ title | async }}</h2>
         </div>
         <div>
           <table class="table">
@@ -68,22 +74,34 @@
                 <th class="text-center" scope="col">Delete</th>
               </tr>
             </thead>
-            <tbody>
-              <tr class="h6">
-                <td class="pt-3 bg-success" scope="col">1</td>
-                <td class="pt-3" scope="col">p1</td>
-                <td class="pt-3" scope="col">laptop</td>
-                <td class="pt-3 text-end" scope="col">2000</td>
-                <td class="text-center" scope="col">
-                  <button class="btn btn-success">Edit</button>
-                </td>
-                <td class="text-center" scope="col">
-                  <button class="btn btn-danger">Delete</button>
-                </td>
-              </tr>
+            <tbody *ngIf="!editSpin">
+              <ng-container *ngFor="let product of products; index as i">
+                <tr class="h6">
+                  <td class="pt-3 bg-success" scope="col">{{ i + 1 }}</td>
+                  <td class="pt-3" scope="col">{{ product.id }}</td>
+                  <td class="pt-3" scope="col">{{ product.name }}</td>
+                  <td class="pt-3 text-end" scope="col">{{ product.price }}</td>
+                  <td class="text-center" scope="col">
+                    <button class="btn btn-success" (click)="editData(i)">
+                      Edit
+                    </button>
+                  </td>
+                  <td class="text-center" (click)="deleteData(i)" scope="col">
+                    <button class="btn btn-danger">Delete</button>
+                  </td>
+                </tr>
+              </ng-container>
             </tbody>
           </table>
         </div>
+        <ng-container *ngIf="editSpin">
+          <div class="d-flex align-items-center justify-content-center">
+            <div class="spinner-border text-warning" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+            &nbsp; Fetching data...
+          </div>
+        </ng-container>
       </div>
     </div>
   </div>
