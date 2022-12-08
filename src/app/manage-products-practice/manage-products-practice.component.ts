@@ -22,7 +22,7 @@ export class ManageProductsPracticeComponent implements OnInit {
     private _practiceSer: PracticeService
   ) { }
 
-  title:any = this._practiceSer.onGetTitle();
+  title: any = this._practiceSer.onGetTitle();
 
 
   ngOnInit(): void {
@@ -79,8 +79,10 @@ export class ManageProductsPracticeComponent implements OnInit {
 
     this._practiceSer.onFetchData().subscribe(
       (res: any) => {
-        const data = JSON.stringify(res);
-        this.products = JSON.parse(data);
+        if (res !== null) {
+          const data = JSON.stringify(res);
+          this.products = JSON.parse(data);
+        }
         this.editSpin = false;
       },
       (err: any) => {
