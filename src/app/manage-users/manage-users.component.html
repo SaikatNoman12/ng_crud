@@ -1,0 +1,100 @@
+<br />
+<div class="container bg-light p-3 border">
+  <div class="w-100 white-back shadow rounded text-center p-2">
+    <h1 class="pb-3 pt-3 text-primary">{{ "Manage Products" | uppercase }}</h1>
+    <hr />
+    <br />
+
+    <div class="row">
+      <div class="col-md-6">
+        <div class="mb-4">
+          <h2>Add Users</h2>
+        </div>
+        <div class="form text-start">
+          <form
+            (ngSubmit)="submitFormData(templateForm.value)"
+            #templateForm="ngForm"
+          >
+            <div class="form-group mb-3">
+              <label class="h6" for="exampleInputEmail1">Name:</label>
+              <input
+                type="text"
+                class="form-control"
+                id="exampleInputEmail1"
+                aria-describedby="emailHelp"
+                placeholder="Enter name..."
+                name="name"
+                ngModel
+                required
+                #uname="ngModel"
+              />
+              <small class="text-danger" *ngIf="!uname.valid && uname.touched">
+                Please enter your name!
+              </small>
+            </div>
+            <div class="form-group mb-4">
+              <label class="h6" for="exampleInputPassword1">Technology:</label>
+              <input
+                type="text"
+                class="form-control"
+                id="exampleInputPassword1"
+                placeholder="Enter technology..."
+                name="technology"
+                ngModel
+                required
+                #tech="ngModel"
+              />
+              <small *ngIf="!tech.valid && tech.touched" class="text-danger">
+                Please enter your technology!
+              </small>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </form>
+        </div>
+        <br />
+      </div>
+      <div class="col-md-6">
+        <div class="mb-5">
+          <h2 *ngIf="!spinnerTitle">{{ userTitle }}</h2>
+          <div
+            *ngIf="spinnerTitle"
+            class="spinner-border text-warning"
+            role="status"
+          >
+            <span class="visually-hidden">Loading...</span>
+          </div>
+        </div>
+        <div>
+          <table class="table">
+            <thead class="table-dark">
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Name</th>
+                <th scope="col">Technology</th>
+                <th class="text-center" scope="col">Edit</th>
+                <th class="text-center" scope="col">Delete</th>
+              </tr>
+            </thead>
+            <tbody>
+              <ng-container *ngFor="let user of users; index as i">
+                <tr class="h6">
+                  <td class="pt-3 bg-success text-light" scope="col">
+                    {{ i + 1 }}
+                  </td>
+                  <td class="pt-3" scope="col">{{ user.name }}</td>
+                  <td class="pt-3" scope="col">{{ user.technology }}</td>
+                  <td class="text-center" scope="col">
+                    <button class="btn btn-success">Edit</button>
+                  </td>
+                  <td class="text-center" scope="col">
+                    <button class="btn btn-danger">Delete</button>
+                  </td>
+                </tr>
+              </ng-container>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
