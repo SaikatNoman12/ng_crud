@@ -49,7 +49,9 @@
                 Please enter your technology!
               </small>
             </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <button type="submit" class="btn btn-primary">
+              {{ updateData ? "Update User" : "Add User" }}
+            </button>
           </form>
         </div>
 
@@ -60,41 +62,64 @@
           <h2>Ux Users</h2>
         </div>
         <div>
-          <table class="table">
-            <thead class="table-dark">
-              <tr>
-                <th scope="col">#</th>
-                <th scope="col">Name</th>
-                <th scope="col" class="text-center">Technology</th>
-                <th class="text-center" scope="col">Edit</th>
-                <th class="text-center" scope="col">Delete</th>
-              </tr>
-            </thead>
-            <tbody>
-              <ng-container *ngFor="let user of usersPractice; index as i">
+          <ng-container *ngIf="usersPractice" >
+            <table class="table">
+              <thead class="table-dark">
                 <tr>
-                  <td
-                    scope="col"
-                    class="bg-success text-center text-light pt-3"
-                  >
-                    {{ i + 1 }}
-                  </td>
-                  <td scope="col" class="h6 pt-3 text-center">
-                    {{ user.name }}
-                  </td>
-                  <td scope="col" class="h6 pt-3 text-center">
-                    {{ user.technology }}
-                  </td>
-                  <td scope="col">
-                    <button class="btn btn-success">Edit</button>
-                  </td>
-                  <td scope="col">
-                    <button class="btn btn-danger">Delete</button>
-                  </td>
+                  <th scope="col">#</th>
+                  <th scope="col">Name</th>
+                  <th scope="col" class="text-center">Technology</th>
+                  <th class="text-center" scope="col">Edit</th>
+                  <th class="text-center" scope="col">Delete</th>
                 </tr>
+              </thead>
+              <ng-container *ngIf="!spinnerShow" >
+                <tbody>
+                  <ng-container *ngFor="let user of usersPractice; index as i">
+                    <tr>
+                      <td
+                        scope="col"
+                        class="bg-success text-center text-light pt-3"
+                      >
+                        {{ i + 1 }}
+                      </td>
+                      <td scope="col" class="h6 pt-3 text-center">
+                        {{ user.name }}
+                      </td>
+                      <td scope="col" class="h6 pt-3 text-center">
+                        {{ user.technology }}
+                      </td>
+                      <td scope="col">
+                        <button
+                          class="btn btn-success"
+                          (click)="myEditData(user.userId, i)"
+                        >
+                          Edit
+                        </button>
+                      </td>
+                      <td scope="col">
+                        <button
+                          class="btn btn-danger"
+                          (click)="myDeleteData(user.userId)"
+                        >
+                          Delete
+                        </button>
+                      </td>
+                    </tr>
+                  </ng-container>
+                </tbody>
               </ng-container>
-            </tbody>
-          </table>
+            </table>
+          </ng-container>
+
+          <ng-container *ngIf="spinnerShow">
+            <div class="d-flex justify-content-center align-items-center">
+              <div class="spinner-border text-warning" role="status">
+                <span class="visually-hidden">Loading...</span>
+              </div>
+              &nbsp; Fetching data...
+            </div>
+          </ng-container>
         </div>
       </div>
     </div>
