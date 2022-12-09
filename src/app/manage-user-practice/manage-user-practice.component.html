@@ -1,0 +1,91 @@
+<br />
+<div class="container bg-light p-3 border">
+  <div class="w-100 white-back shadow rounded text-center p-2">
+    <h1 class="pb-3 pt-3 text-primary">{{ "Manage Products" | uppercase }}</h1>
+    <hr />
+    <br />
+
+    <div class="row">
+      <div class="col-md-6">
+        <div class="mb-4">
+          <h2>Add Products</h2>
+        </div>
+
+        <div class="text-start">
+          <form  (ngSubmit)="myRecFromSubmit()" [formGroup]="myRecForm" >
+            <div class="form-group mb-4">
+              <label class="h6" for="exampleInputEmail1">Username: </label>
+              <input
+                type="type"
+                class="form-control"
+                id="exampleInputEmail1"
+                aria-describedby="emailHelp"
+                placeholder="Enter name..."
+                formControlName="name"
+              />
+              <small 
+              *ngIf="!fc?.['name']?.valid && fc?.['name']?.touched"
+              class="text-danger">
+                  Please enter your name!
+              </small>
+            </div>
+            <div class="form-group mb-4">
+              <label class="h6" for="exampleInputPassword1">Technology: </label>
+              <input
+                type="text"
+                class="form-control"
+                id="exampleInputPassword1"
+                placeholder="Enter technology"
+                formControlName="technology"
+              />
+              <small
+              *ngIf="!myRecForm.get('technology')?.valid 
+              && myRecForm.get('technology')?.touched" 
+              class="text-danger">
+                Please enter your technology!
+              </small>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </form>
+        </div>
+
+        <br />
+      </div>
+      <div class="col-md-6">
+        <div class="mb-5">
+          <h2>Ux Users</h2>
+        </div>
+        <div>
+          <table class="table">
+            <thead class="table-dark">
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Name</th>
+                <th scope="col" class="text-center">Technology</th>
+                <th class="text-center" scope="col">Edit</th>
+                <th class="text-center" scope="col">Delete</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td scope="col" class="bg-success text-center text-light pt-3">1</td>
+                <td scope="col" class="h6 pt-3 text-center" >Noman</td>
+                <td scope="col" class="h6 pt-3 text-center" >Angular</td>
+                <td scope="col" >
+                  <button class="btn btn-success">
+                    Edit
+                  </button>
+                </td>
+                <td scope="col"  >
+                  <button class="btn btn-danger">
+                    Delete
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

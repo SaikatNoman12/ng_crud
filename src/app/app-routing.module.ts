@@ -5,7 +5,7 @@ const routes: Routes = [
   {
     path: '',
     pathMatch: 'full',
-    redirectTo: 'manage-user'
+    redirectTo: 'manage-user-practice'
   },
   {
     path: 'manage-products',
@@ -21,6 +21,11 @@ const routes: Routes = [
     path: 'manage-user',
     loadChildren: () => import('./manage-users/manage-users.module')
       .then(m => m.ManageUsersModule)
+  },
+  {
+    path: 'manage-user-practice',
+    loadChildren: () => import('./manage-user-practice/manage-user-practice.module')
+      .then(m => m.ManageUserPracticeModule)
   }
 ];
 
