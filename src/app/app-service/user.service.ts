@@ -41,6 +41,13 @@ export class UserService {
       }));
   }
 
+  // on edit data:-
+  editDataDB(userId: string, userData: any) {
+    const editUrl = `https://practice-6b131-default-rtdb.asia-southeast1.firebasedatabase.app/users/${userId}.json`;
+
+    return this.http.put(editUrl, userData);
+  }
+
   // on delete data:-
   onDeleteDb(userId: string) {
     const url = `https://practice-6b131-default-rtdb.asia-southeast1.firebasedatabase.app/users/${userId}.json`;

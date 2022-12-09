@@ -48,7 +48,9 @@
                 Please enter your technology!
               </small>
             </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <button type="submit" class="btn btn-primary">
+              {{ editItem ? "Update User" : "Submit" }}
+            </button>
           </form>
         </div>
         <br />
@@ -82,10 +84,17 @@
                     <td class="pt-3 bg-success text-light" scope="col">
                       {{ i + 1 }}
                     </td>
-                    <td class="pt-3" scope="col">{{ user.name }}</td>
+                    <td class="pt-3" scope="col">
+                      {{ user.name | titlecase }}
+                    </td>
                     <td class="pt-3" scope="col">{{ user.technology }}</td>
                     <td class="text-center" scope="col">
-                      <button class="btn btn-success">Edit</button>
+                      <button
+                        class="btn btn-success"
+                        (click)="onEditUSer(user.userId, i)"
+                      >
+                        Edit
+                      </button>
                     </td>
                     <td class="text-center" scope="col">
                       <button

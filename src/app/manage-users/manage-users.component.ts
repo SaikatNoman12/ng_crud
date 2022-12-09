@@ -19,6 +19,9 @@ export class ManageUsersComponent implements OnInit {
   users: any;
   spinnerUser: boolean = false;
 
+  editItem: boolean = false;
+  editItemId: any;
+
   constructor(
     private _userSer: UserService
   ) { }
@@ -57,24 +60,57 @@ export class ManageUsersComponent implements OnInit {
   submitFormData(userData: User) {
     if ((this.templateForm.value.name === '' && this.templateForm.value.technology === '') || (this.templateForm.value.name === null && this.templateForm.value.technology === null)) {
       alert('Enter all input field!');
+
+      if (this.editItem) {
+        this.templateForm.reset();
+        this.editItem = false;
+      }
     }
     else if (this.templateForm.value.name === null || this.templateForm.value.name === '') {
       alert('Enter name input field!');
+
+      if (this.editItem) {
+        this.templateForm.reset();
+        this.editItem = false;
+      }
     }
     else if (this.templateForm.value.technology === null || this.templateForm.value.technology === '') {
       alert('Enter technology input field!');
+
+      if (this.editItem) {
+        this.templateForm.reset();
+        this.editItem = false;
+      }
+
     }
     else {
-      this._userSer.onPostData(userData).subscribe(
-        (res) => {
-          if (res !== null) {
-            this.onFetchData();
-          }
-        },
-        (err) => {
+
+      if (this.templateForm.valid) {
+
+        if (this.editItem) {
+          this._userSer.editDataDB(this.editItemId, userData)
+            .subscribe(
+              () => {
+                this.onFetchData();
+              }
+            );
+          this.editItem = false;
         }
-      )
-      this.templateForm.reset();
+
+        else {
+          this._userSer.onPostData(userData).subscribe(
+            (res) => {
+              if (res !== null) {
+                this.onFetchData();
+              }
+            },
+            (err) => {
+            }
+          )
+        }
+        this.templateForm.reset();
+
+      }
     }
   }
 
@@ -90,6 +126,20 @@ export class ManageUsersComponent implements OnInit {
       (err) => {
       }
     )
+  }
+
+  onEditUSer(userId: string, index: number) {
+    console.log(this.users[index]);
+
+    this.editItemId = userId;
+
+    this.editItem = true;
+
+    this.templateForm.setValue({
+      name: this.users[index].name,
+      technology: this.users[index].technology,
+    })
+
   }
 
 
