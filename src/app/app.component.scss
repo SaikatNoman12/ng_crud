@@ -1,0 +1,27 @@
+div ul {
+  display: flex;
+  margin-top: 30px;
+  list-style: none;
+}
+
+div ul li{
+    margin: 0px 7px;
+}
+
+div ul li a {
+  padding: 20px 20px;
+  color: #fff;
+  font-size: 20px;
+  text-decoration: none;
+  background-color: gray;
+  border-radius: 10px;
+}
+
+div ul li a:hover {
+    background-color: rgba(128, 128, 128, 0.569);
+}
+
+div ul li a.active{
+    background-color: rgba(128, 128, 128, 0.569);
+}
+

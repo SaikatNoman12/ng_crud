@@ -13,7 +13,7 @@ const routes: Routes = [
       .then(m => m.ManageproductsModule)
   },
   {
-    path: 'manage-practice',
+    path: 'manage-products-practice',
     loadChildren: () => import('./manage-products-practice/manage-products-practice.module')
       .then(m => m.ManageProductsPracticeModule)
   },

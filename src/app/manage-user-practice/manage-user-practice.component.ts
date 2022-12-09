@@ -38,14 +38,40 @@ export class ManageUserPracticeComponent implements OnInit {
 
   // use set data:-
   myRecFromSubmit() {
-    if (this.fc?.['name']?.value === null || this.fc?.['name']?.value === '' && this.fc?.['technology']?.value === null || this.fc?.['technology']?.value === '') {
-      alert('please enter all input value!');
+    if ((this.fc?.['name']?.value === null || this.fc?.['name']?.value === '') && (this.fc?.['technology']?.value === null || this.fc?.['technology']?.value === '')) {
+      if (!this.updateData) {
+        alert('please enter all input value!');
+      }
+      else {
+        if (confirm('Please update all input value! or reset form value')) {
+          this.updateData = false;
+          this.myRecForm.reset();
+        }
+      }
     }
-    else if (this.fc?.['name']?.value === null || this.fc?.['name']?.value === '') {
-      alert('Please enter name input value!');
+    else if (this.fc?.['name']?.value === null || this.fc?.['name']?.value === '' || this.fc?.['name']?.value.length === 0) {
+      if (!this.updateData) {
+        alert('Please enter name input value!');
+      }
+      else {
+        if (confirm('Please update name input value! or reset form value')) {
+          this.updateData = false;
+          this.myRecForm.reset();
+        }
+      }
     }
-    else if (this.fc?.['technology'].value === null || this.fc?.['technology']?.value === '') {
-      alert('Please enter technology input value!');
+    else if (this.fc?.['technology'].value === null || this.fc?.['technology']?.value === '' || this.fc?.['technology']?.value.length === 0) {
+
+      if (!this.updateData) {
+        alert('Please enter technology input value!');
+      }
+      else {
+        if (confirm('Please update technology input value! or reset form value')) {
+          this.updateData = false;
+          this.myRecForm.reset();
+        }
+      }
+
     }
     else {
       this.spinnerShow = true;
@@ -58,7 +84,7 @@ export class ManageUserPracticeComponent implements OnInit {
             this.spinnerShow = false;
           },
           (err) => { }
-        )
+        );
       }
       else {
         this._serverService.onSetData(data).subscribe(
@@ -70,6 +96,8 @@ export class ManageUserPracticeComponent implements OnInit {
           },
           (err) => { }
         );
+
+        console.log(this.fc?.['technology']?.value.length);
       }
       this.myRecForm.reset();
     }
@@ -100,12 +128,19 @@ export class ManageUserPracticeComponent implements OnInit {
 
   // use delete data:-
   myDeleteData(userId: any) {
-    this._serverService.onDeleteData(userId).subscribe(
-      (res) => {
-        this.myGetData();
-      },
-      (err) => { }
-    );
+
+    if (!this.updateData) {
+      this._serverService.onDeleteData(userId).subscribe(
+        (res) => {
+          this.myGetData();
+        },
+        (err) => { }
+      );
+    }
+    else {
+      alert('Please update your data');
+    }
+
   }
 
 }
